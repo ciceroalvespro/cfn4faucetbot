@@ -39,4 +39,7 @@ async def main() -> None:
 
 if __name__ == '__main__':
     import asyncio
-    asyncio.run(main())
+    # Não use asyncio.run(), apenas chame diretamente o método assíncrono
+    asyncio.ensure_future(main())
+    # Manter o loop de eventos aberto
+    asyncio.get_event_loop().run_forever()
