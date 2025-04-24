@@ -2,6 +2,7 @@ import logging
 from telegram import Update
 from telegram.ext import Application, CommandHandler, CallbackContext
 import os
+import socket
 
 # Configurar o logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -16,6 +17,14 @@ async def start(update: Update, context: CallbackContext) -> None:
 async def faucet(update: Update, context: CallbackContext) -> None:
     # Aqui você pode adicionar a lógica para distribuir os tokens, como verificar o saldo ou realizar a transferência
     await update.message.reply_text("Você recebeu seus tokens CFN4!")
+
+# Função para "escutar" em uma porta fictícia para evitar erros de binding
+def listen_on_port():
+    port = os.getenv('PORT', 5000)  # Usar a variável de ambiente PORT fornecida pelo Render
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(('0.0.0.0', int(port)))  # Ligando à porta configurada
+        s.listen(1)
+        print(f"Escutando na porta {port}...")
 
 # Função principal que inicializa o bot
 async def main() -> None:
@@ -39,7 +48,10 @@ async def main() -> None:
 
 if __name__ == '__main__':
     import asyncio
+    # Iniciar a escuta em uma porta fictícia
+    listen_on_port()
     # Não use asyncio.run(), apenas chame diretamente o método assíncrono
     asyncio.ensure_future(main())
     # Manter o loop de eventos aberto
     asyncio.get_event_loop().run_forever()
+
