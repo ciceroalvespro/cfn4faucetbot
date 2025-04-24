@@ -27,7 +27,7 @@ async def main() -> None:
         logger.error("BOT_TOKEN não foi encontrado!")
         return
     
-    # Criar o Application e passar o token
+    # Criar a aplicação e passar o token
     application = Application.builder().token(token).build()
 
     # Adicionar os manipuladores de comandos
