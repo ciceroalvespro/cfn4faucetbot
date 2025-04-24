@@ -1,0 +1,9 @@
+services:
+  - type: worker
+    name: cfn4faucetbot
+    env: python
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    branch: main
+    autoDeploy: true
